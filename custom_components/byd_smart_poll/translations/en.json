@@ -29,7 +29,7 @@
       },
       "drivers": {
         "title": "Who drives it?",
-        "description": "BYD does not report the car being switched on, so a drive is only seen as it starts if a phone tells us. Without this, a drive is still caught at the next parked poll from the odometer.\n\n**Android:** pick each driver's companion app Bluetooth connection sensor (sensor.<phone>_bluetooth_connection).\n\n**iPhone:** the iOS companion app has no Bluetooth connection sensor. Instead:\n1. Create a toggle helper (input_boolean), for example Car connected.\n2. In the Shortcuts app, add a personal automation \"When CarPlay connects\" that turns the helper on with the Home Assistant app action, set to run immediately. Add another for \"disconnects\" that turns it off.\n3. Pick the helper below as a wake hint.",
+        "description": "BYD does not report the car being switched on, so a drive is only seen as it starts if a phone tells us. Without this, a drive is still caught at the next parked poll from the odometer.\n\n**Android:** pick each driver's companion app Bluetooth connection sensor (sensor.YOUR_PHONE_bluetooth_connection).\n\n**iPhone:** the iOS companion app has no Bluetooth connection sensor. Instead:\n1. Create a toggle helper (input_boolean), for example Car connected.\n2. In the Shortcuts app, add a personal automation \"When CarPlay connects\" that turns the helper on with the Home Assistant app action, set to run immediately. Add another for \"disconnects\" that turns it off.\n3. Pick the helper below as a wake hint.",
         "data": {
           "phone_bluetooth": "Phone Bluetooth sensors",
           "wake_hints": "Wake hints"
@@ -91,7 +91,7 @@
       },
       "drivers": {
         "title": "Who drives it?",
-        "description": "BYD does not report the car being switched on, so a drive is only seen as it starts if a phone tells us. Without this, a drive is still caught at the next parked poll from the odometer.\n\n**Android:** pick each driver's companion app Bluetooth connection sensor (sensor.<phone>_bluetooth_connection).\n\n**iPhone:** the iOS companion app has no Bluetooth connection sensor. Instead:\n1. Create a toggle helper (input_boolean), for example Car connected.\n2. In the Shortcuts app, add a personal automation \"When CarPlay connects\" that turns the helper on with the Home Assistant app action, set to run immediately. Add another for \"disconnects\" that turns it off.\n3. Pick the helper below as a wake hint.",
+        "description": "BYD does not report the car being switched on, so a drive is only seen as it starts if a phone tells us. Without this, a drive is still caught at the next parked poll from the odometer.\n\n**Android:** pick each driver's companion app Bluetooth connection sensor (sensor.YOUR_PHONE_bluetooth_connection).\n\n**iPhone:** the iOS companion app has no Bluetooth connection sensor. Instead:\n1. Create a toggle helper (input_boolean), for example Car connected.\n2. In the Shortcuts app, add a personal automation \"When CarPlay connects\" that turns the helper on with the Home Assistant app action, set to run immediately. Add another for \"disconnects\" that turns it off.\n3. Pick the helper below as a wake hint.",
         "data": {
           "phone_bluetooth": "Phone Bluetooth sensors",
           "wake_hints": "Wake hints"

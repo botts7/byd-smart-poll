@@ -87,6 +87,21 @@ def test_strings_and_english_translation_match():
     assert strings == english
 
 
+def test_strings_have_nothing_hassfest_reads_as_html():
+    # hassfest rejects any <...> in a string, eg a placeholder like sensor.<phone>_x.
+    import re
+
+    def texts(node):
+        if isinstance(node, dict):
+            for value in node.values():
+                yield from texts(value)
+        elif isinstance(node, str):
+            yield node
+
+    strings = json.loads((PKG / "strings.json").read_text(encoding="utf-8"))
+    assert [t for t in texts(strings) if re.search(r"<[^>]*>", t)] == []
+
+
 # ---------- battery size and energy per 1% ----------
 
 

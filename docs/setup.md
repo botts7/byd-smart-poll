@@ -150,7 +150,7 @@ sensor's `last_missed_drive` attribute shows when this last happened.
    connection. Turn it on.
 2. Make sure the phone has connected to the car at least once, so the car is in its paired
    devices.
-3. In setup, at "Who drives it?", pick the phone's `sensor.<phone>_bluetooth_connection`.
+3. In setup, at "Who drives it?", pick the phone's `sensor.YOUR_PHONE_bluetooth_connection`.
 4. The next step lists the phone's paired devices. Pick the car (it is usually preselected if
    its name has BYD in it). It is saved by MAC address. A name typed by hand must be the whole
    name, in any case: "BYD SEAL" does not match "BYD SEALION 7".

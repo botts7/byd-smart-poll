@@ -364,10 +364,11 @@ class SmartPollOptionsFlow(_SignalSteps, OptionsFlow):
             for key, value in effective_options(entry).items()
             if key not in (CONF_DEVICE_ID, CONF_CAR_BLUETOOTH_PARTIAL)
         }
-        return await self.async_step_charging()
+        # A menu, so the intervals are one click away rather than after the signal pages.
+        return self.async_show_menu(step_id="init", menu_options=["charging", "intervals"])
 
     async def _async_signals_done(self) -> ConfigFlowResult:
-        return await self.async_step_intervals()
+        return self.async_create_entry(data=self._values)
 
     async def async_step_intervals(
         self, user_input: dict[str, Any] | None = None

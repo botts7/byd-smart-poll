@@ -75,6 +75,13 @@
   },
   "options": {
     "step": {
+      "init": {
+        "title": "What do you want to change?",
+        "menu_options": {
+          "charging": "Charger, phones and wake hints",
+          "intervals": "Poll intervals, timing and battery"
+        }
+      },
       "charging": {
         "title": "How do you charge at home?",
         "description": "If your wallbox or smart plug is in Home Assistant, charging can be seen without waking the car. Both are optional.\n\nPick a sensor that only shows this car charging. A shared wallbox, a plug with other things on it or a whole-house meter makes the car look like it is charging when it is not.\n\nSkip charger power and a charge is seen at one of two polls a few minutes after a drive ends, or else at the next parked poll (up to an hour by default). Skip the cable sensor and at home falls back to the car's last GPS fix in your home zone.",
@@ -84,7 +91,7 @@
           "no_home_charger": "I do not charge at home"
         },
         "data_description": {
-          "charger_power": "Live charging power of this car, in W or kW. Charging counts from the charging threshold on the last page (300 W by default). Public charging is still seen from the car's own data.",
+          "charger_power": "Live charging power of this car, in W or kW. Charging counts from the charging threshold under Poll intervals, timing and battery (300 W by default). Public charging is still seen from the car's own data.",
           "charger_connected": "On while the cable is plugged in at home. Means the car is at home, and one reading is taken when it is unplugged.",
           "no_home_charger": "Tick if the car is only charged away from home. Then no charger sensor is needed and Repairs does not ask for one. If a wallbox or smart plug at home is in Home Assistant, leave this off and pick its power sensor above."
         }
@@ -97,7 +104,7 @@
           "wake_hints": "Wake hints"
         },
         "data_description": {
-          "phone_bluetooth": "One per Android driver. A phone connecting to this car (and not another one) starts fast polling for a while (the wake window on the last page, 10 minutes by default).",
+          "phone_bluetooth": "One per Android driver. A phone connecting to this car (and not another one) starts fast polling for a while (the wake window under Poll intervals, timing and battery, 10 minutes by default).",
           "wake_hints": "Anything else that means the car is about to be used, like the iPhone helper above. Toggles and binary sensors count when they turn on, buttons when pressed, and other entities when they change to on or connected. Android Auto works too, but it also turns on in other cars."
         }
       },

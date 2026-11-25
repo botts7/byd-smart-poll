@@ -72,13 +72,38 @@ def test_options_form_leaves_out_the_old_car_name_marker(monkeypatch):
     )
     monkeypatch.setattr(SmartPollOptionsFlow, "config_entry", entry)
     flow = SmartPollOptionsFlow()
-
-    async def charging():
-        return {"type": "form", "step_id": "charging"}
-
-    flow.async_step_charging = charging
+    flow.flow_id = "flow"
+    flow.handler = "entry"
     asyncio.run(flow.async_step_init())
     assert flow._values == {CONF_CAR_BLUETOOTH: "BYD SEAL"}
+
+
+def test_configure_opens_a_menu_with_the_intervals_one_click_away(monkeypatch):
+    entry = SimpleNamespace(data={CONF_DEVICE_ID: "device"}, options={})
+    monkeypatch.setattr(SmartPollOptionsFlow, "config_entry", entry)
+    flow = SmartPollOptionsFlow()
+    flow.flow_id = "flow"
+    flow.handler = "entry"
+    result = asyncio.run(flow.async_step_init())
+    assert result["type"] == "menu"
+    assert list(result["menu_options"]) == ["charging", "intervals"]
+    # Each menu option is a step, and each has its text.
+    strings = json.loads((PKG / "strings.json").read_text(encoding="utf-8"))
+    menu = strings["options"]["step"]["init"]["menu_options"]
+    for option in result["menu_options"]:
+        assert hasattr(flow, f"async_step_{option}")
+        assert menu[option]
+
+
+def test_signal_pages_save_without_going_through_the_intervals():
+    flow = SmartPollOptionsFlow()
+    flow.flow_id = "flow"
+    flow.handler = "entry"
+    flow._values = {CONF_KWH_BAND_EDGE: 85, CONF_CAR_BLUETOOTH: "BYD SEALION 7"}
+    result = asyncio.run(flow._async_signals_done())
+    assert result["type"] == "create_entry"
+    # The intervals saved before are kept.
+    assert result["data"] == {CONF_KWH_BAND_EDGE: 85, CONF_CAR_BLUETOOTH: "BYD SEALION 7"}
 
 
 def test_strings_and_english_translation_match():

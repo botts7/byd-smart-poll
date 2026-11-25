@@ -111,13 +111,11 @@ BYD Smart Poll is not in the Marketplace catalog yet, so you add it from its lin
 
 Or by hand: Settings, Marketplace, **Add from link**, enter `botts7/byd-smart-poll` (the
 Marketplace asks you to connect GitHub the first time), then open BYD Smart Poll and select
-**Install**. While only a beta exists, turn on its pre-releases first: Settings, Devices and
-services, Marketplace, the BYD Smart Poll device, enable the **Pre-release** entity and turn
-it on.
+**Install**.
 
 **Home Assistant 2025.2 to 2026.10 (HACS).** HACS, the three dots menu, Custom repositories.
-Add `https://github.com/botts7/byd-smart-poll` with type Integration. Find BYD Smart Poll, download it (pick the beta under
-Need a different version? while only a beta exists) and restart Home Assistant.
+Add `https://github.com/botts7/byd-smart-poll` with type Integration. Find BYD Smart Poll, download it and restart
+Home Assistant.
 
 **Manual.** Copy `custom_components/byd_smart_poll` from this repository into the
 `custom_components` folder of your Home Assistant config, then restart Home Assistant.

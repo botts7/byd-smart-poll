@@ -1,0 +1,44 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  hassfest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: home-assistant/actions/hassfest@master
+
+  hacs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hacs/action@main
+        with:
+          category: integration
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      # The controller tests (test_controller*.py, test_removal.py, test_unload.py) need
+      # Home Assistant and skip themselves without it, so it is installed here (the version
+      # they were written against) and checked. BSP_NO_SKIPS below also fails the job if
+      # any test is skipped, say a Home Assistant submodule they import failing.
+      - run: pip install ruff mypy pytest homeassistant==2026.2.3
+      - run: python -c "import homeassistant"
+      - run: ruff check custom_components tests
+      - run: ruff format --check custom_components tests
+      - run: mypy custom_components/byd_smart_poll --ignore-missing-imports
+      - run: python -m pytest -q -rs tests
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+          # Any skipped test fails the job (see tests/conftest.py).
+          BSP_NO_SKIPS: "1"

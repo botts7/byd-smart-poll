@@ -1,0 +1,244 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Which car?",
+        "description": "Polls your BYD only when it is worth it: slowly while parked, often while driving, and timed to each percent while charging. Every poll wakes the car, and while parked that comes out of the battery.",
+        "data": {
+          "device_id": "Car",
+          "battery_kwh": "Battery size (kWh)"
+        },
+        "data_description": {
+          "device_id": "A car from the BYD Vehicle integration.",
+          "battery_kwh": "Optional. The usable battery size, for a first guess of the energy per 1% before charging has learned it. Leave it empty if unsure."
+        }
+      },
+      "charging": {
+        "title": "How do you charge at home?",
+        "description": "If your wallbox or smart plug is in Home Assistant, charging can be seen without waking the car. Both are optional.\n\nPick a sensor that only shows this car charging. A shared wallbox, a plug with other things on it or a whole-house meter makes the car look like it is charging when it is not.\n\nSkip charger power and a charge is seen at one of two polls a few minutes after a drive ends, or else at the next parked poll (up to an hour by default). Skip the cable sensor and at home falls back to the car's last GPS fix in your home zone.",
+        "data": {
+          "charger_power": "Charger power",
+          "charger_connected": "Cable connected",
+          "no_home_charger": "I do not charge at home"
+        },
+        "data_description": {
+          "charger_power": "Live charging power of this car, in W or kW. Charging counts from 300 W by default (Charging threshold under Configure). Public charging is still seen from the car's own data.",
+          "charger_connected": "On while the cable is plugged in at home. Means the car is at home, and one reading is taken when it is unplugged.",
+          "no_home_charger": "Tick if the car is only charged away from home. Then no charger sensor is needed and Repairs does not ask for one. If a wallbox or smart plug at home is in Home Assistant, leave this off and pick its power sensor above."
+        }
+      },
+      "drivers": {
+        "title": "Who drives it?",
+        "description": "BYD does not report the car being switched on, so a drive is only seen as it starts if a phone tells us. Without this, a drive is still caught at the next parked poll from the odometer.\n\n**Android:** pick each driver's companion app Bluetooth connection sensor (sensor.<phone>_bluetooth_connection).\n\n**iPhone:** the iOS companion app has no Bluetooth connection sensor. Instead:\n1. Create a toggle helper (input_boolean), for example Car connected.\n2. In the Shortcuts app, add a personal automation \"When CarPlay connects\" that turns the helper on with the Home Assistant app action, set to run immediately. Add another for \"disconnects\" that turns it off.\n3. Pick the helper below as a wake hint.",
+        "data": {
+          "phone_bluetooth": "Phone Bluetooth sensors",
+          "wake_hints": "Wake hints"
+        },
+        "data_description": {
+          "phone_bluetooth": "One per Android driver. A phone connecting to this car (and not another one) starts fast polling for a while (10 minutes by default, Wake window under Configure).",
+          "wake_hints": "Anything else that means the car is about to be used, like the iPhone helper above. Toggles and binary sensors count when they turn on, buttons when pressed, and other entities when they change to on or connected. Android Auto works too, but it also turns on in other cars."
+        }
+      },
+      "car_bluetooth": {
+        "title": "Which one is the car?",
+        "description": "These are the Bluetooth devices your phones are paired with. Pick the car, or type its MAC address or its whole Bluetooth name.",
+        "data": {
+          "car_bluetooth": "Car Bluetooth"
+        },
+        "data_description": {
+          "car_bluetooth": "A phone only counts as in the car while it is connected to this. Leave it empty and the phone sensors are not used."
+        }
+      },
+      "car_bluetooth_manual": {
+        "title": "Car Bluetooth name",
+        "description": "Your phones have not listed any paired Bluetooth devices, so there is nothing to pick from.\n\nTo fix that, on each Android phone open the Home Assistant app, then Companion app settings, Manage sensors, Bluetooth connection, and turn it on. The phone also needs to have connected to the car once. Then run Configure again.\n\nOr type the car's MAC address or its whole Bluetooth name now.",
+        "data": {
+          "car_bluetooth": "Car Bluetooth name or MAC"
+        },
+        "data_description": {
+          "car_bluetooth": "As the phone shows it in its Bluetooth settings, for example BYD SEALION 7. The whole name, in any case: BYD SEAL does not match BYD SEALION 7. Leave it empty and the phone sensors are not used."
+        }
+      }
+    },
+    "error": {
+      "device_not_found": "That device no longer exists.",
+      "not_byd_device": "That device is not from the BYD Vehicle integration.",
+      "missing_entities": "The car's poll interval numbers, battery level or vehicle on sensor do not exist. Check BYD Vehicle is 0.0.88 or newer and has finished loading, then try again.",
+      "not_power": "That sensor is not power. Pick one in W or kW, not energy (kWh) or current (A).",
+      "home_charger_and_sensors": "You ticked I do not charge at home but also picked a charger sensor. Clear one of them.",
+      "entities_disabled": "The car's poll interval numbers, battery level or vehicle on sensor are disabled. Enable them on the car's device page in BYD Vehicle and try again."
+    },
+    "abort": {
+      "already_configured": "This car is already set up.",
+      "byd_too_old": "BYD Smart Poll needs BYD Vehicle {minimum} or newer, and {version} is installed. Update BYD Vehicle, restart Home Assistant and try again."
+    }
+  },
+  "options": {
+    "step": {
+      "charging": {
+        "title": "How do you charge at home?",
+        "description": "If your wallbox or smart plug is in Home Assistant, charging can be seen without waking the car. Both are optional.\n\nPick a sensor that only shows this car charging. A shared wallbox, a plug with other things on it or a whole-house meter makes the car look like it is charging when it is not.\n\nSkip charger power and a charge is seen at one of two polls a few minutes after a drive ends, or else at the next parked poll (up to an hour by default). Skip the cable sensor and at home falls back to the car's last GPS fix in your home zone.",
+        "data": {
+          "charger_power": "Charger power",
+          "charger_connected": "Cable connected",
+          "no_home_charger": "I do not charge at home"
+        },
+        "data_description": {
+          "charger_power": "Live charging power of this car, in W or kW. Charging counts from the charging threshold on the last page (300 W by default). Public charging is still seen from the car's own data.",
+          "charger_connected": "On while the cable is plugged in at home. Means the car is at home, and one reading is taken when it is unplugged.",
+          "no_home_charger": "Tick if the car is only charged away from home. Then no charger sensor is needed and Repairs does not ask for one. If a wallbox or smart plug at home is in Home Assistant, leave this off and pick its power sensor above."
+        }
+      },
+      "drivers": {
+        "title": "Who drives it?",
+        "description": "BYD does not report the car being switched on, so a drive is only seen as it starts if a phone tells us. Without this, a drive is still caught at the next parked poll from the odometer.\n\n**Android:** pick each driver's companion app Bluetooth connection sensor (sensor.<phone>_bluetooth_connection).\n\n**iPhone:** the iOS companion app has no Bluetooth connection sensor. Instead:\n1. Create a toggle helper (input_boolean), for example Car connected.\n2. In the Shortcuts app, add a personal automation \"When CarPlay connects\" that turns the helper on with the Home Assistant app action, set to run immediately. Add another for \"disconnects\" that turns it off.\n3. Pick the helper below as a wake hint.",
+        "data": {
+          "phone_bluetooth": "Phone Bluetooth sensors",
+          "wake_hints": "Wake hints"
+        },
+        "data_description": {
+          "phone_bluetooth": "One per Android driver. A phone connecting to this car (and not another one) starts fast polling for a while (the wake window on the last page, 10 minutes by default).",
+          "wake_hints": "Anything else that means the car is about to be used, like the iPhone helper above. Toggles and binary sensors count when they turn on, buttons when pressed, and other entities when they change to on or connected. Android Auto works too, but it also turns on in other cars."
+        }
+      },
+      "car_bluetooth": {
+        "title": "Which one is the car?",
+        "description": "These are the Bluetooth devices your phones are paired with. Pick the car, or type its MAC address or its whole Bluetooth name.",
+        "data": {
+          "car_bluetooth": "Car Bluetooth"
+        },
+        "data_description": {
+          "car_bluetooth": "A phone only counts as in the car while it is connected to this. Leave it empty and the phone sensors are not used."
+        }
+      },
+      "car_bluetooth_manual": {
+        "title": "Car Bluetooth name",
+        "description": "Your phones have not listed any paired Bluetooth devices, so there is nothing to pick from.\n\nTo fix that, on each Android phone open the Home Assistant app, then Companion app settings, Manage sensors, Bluetooth connection, and turn it on. The phone also needs to have connected to the car once. Then run Configure again.\n\nOr type the car's MAC address or its whole Bluetooth name now.",
+        "data": {
+          "car_bluetooth": "Car Bluetooth name or MAC"
+        },
+        "data_description": {
+          "car_bluetooth": "As the phone shows it in its Bluetooth settings, for example BYD SEALION 7. The whole name, in any case: BYD SEAL does not match BYD SEALION 7. Leave it empty and the phone sensors are not used."
+        }
+      },
+      "intervals": {
+        "title": "Poll intervals, timing and battery",
+        "data": {
+          "parked_telemetry": "Parked away: telemetry poll interval",
+          "parked_home_telemetry": "Parked at home: telemetry poll interval",
+          "parked_gps": "GPS poll interval when not driving",
+          "driving_telemetry": "Driving: telemetry poll interval",
+          "driving_gps": "Driving: GPS poll interval",
+          "charging_safety": "Charging: longest gap between polls",
+          "battery_kwh": "Battery size (kWh)",
+          "kwh_per_pct": "Energy per 1% of battery, starting guess",
+          "kwh_band_edge": "Energy per 1%: upper band from",
+          "charging_min_power": "Charging threshold",
+          "charging_stop_delay": "Charging stop delay",
+          "wake_window": "Wake window"
+        },
+        "data_description": {
+          "parked_telemetry": "Parked and not charging away from home, or when where the car is cannot be told. Each poll wakes the car and costs battery.",
+          "charging_safety": "While charging, polls are timed to when the next percent should tick over. This is only a backstop.",
+          "kwh_per_pct": "Optional. Overrides the guess from the battery size. Learned while charging and kept between sessions, separately below and above the band edge. Typing a new value here starts the learning again from it for both. While it is set, the battery size is not used. With neither set, 0.6 kWh.",
+          "parked_home_telemetry": "At home is the charger cable connected, or the last GPS fix in your home zone with no drive since. The charger and phones report charging and drives without waking the car there, so this can be longer.",
+          "kwh_band_edge": "Most cars take more energy per 1% near full. Energy per 1% is learned separately from this battery level up. Changing it keeps what was learned.",
+          "battery_kwh": "Optional. The usable battery size, for a first guess of the energy per 1% before charging has learned it: size divided by 100, plus about 10% for charging losses. Once charging has learned it, changing this keeps what was learned.",
+          "charging_min_power": "Charging power that counts as charging, from the charger sensor and from the car's own power reading. Below it the car is plugged in but idle. Raise it if your charger shows standby power while not charging, but keep it well below your slowest charge, such as from a wall socket.",
+          "charging_stop_delay": "How long charging must stay below the threshold before it counts as stopped, so a short dip (a cloud over solar) does not end it.",
+          "wake_window": "How long to poll at the driving rate after a phone connects to the car or a wake hint turns on. It ends sooner when polls from about a third of the way in (3 minutes at least) keep finding the car off, but not while a phone is still connected to the car or the wake hint that started it is still on, and not when it started from unplugging with a phone in the car. Each poll in this window wakes the car."
+        }
+      }
+    },
+    "error": {
+      "not_power": "That sensor is not power. Pick one in W or kW, not energy (kWh) or current (A).",
+      "home_charger_and_sensors": "You ticked I do not charge at home but also picked a charger sensor. Clear one of them."
+    }
+  },
+  "issues": {
+    "no_charger_power": {
+      "title": "{car}: no charger power sensor",
+      "description": "Without a charger power sensor, a charge that starts while the car is parked is only noticed at the next parked poll (up to an hour by default), unless it starts within a few minutes of a drive.\n\nIf your wallbox or smart plug is in Home Assistant, add its power sensor under Settings, Devices and services, BYD Smart Poll, Configure. If you do not charge at home, tick I do not charge at home there instead and this goes away."
+    },
+    "charger_not_this_car": {
+      "title": "{car}: charger does not seem to be charging this car",
+      "description": "{entity_id} showed charging power, but the car said it was not charging and its battery level did not rise. It may be a shared wallbox, a plug with other things on it, a whole-house meter or another car on the charger.\n\nIt is ignored for now and the car's own data is used. If it is the wrong sensor, pick this car's charging power under Settings, Devices and services, BYD Smart Poll, Configure. This goes away once it is seen charging this car, or when another sensor is picked."
+    },
+    "signal_not_found": {
+      "title": "{car}: {entity_id} not found",
+      "description": "{entity_id} is set up as the {use} signal, but it does not exist. It may have been renamed or removed. Pick it again or clear it under Settings, Devices and services, BYD Smart Poll, Configure. Until then it is skipped."
+    },
+    "signal_disabled": {
+      "title": "{car}: {entity_id} is disabled",
+      "description": "{entity_id} is set up as the {use} signal, but it is disabled. Enable it under Settings, Entities, or clear it under Settings, Devices and services, BYD Smart Poll, Configure. Until then it is skipped."
+    },
+    "signal_unavailable": {
+      "title": "{car}: {entity_id} is unavailable",
+      "description": "{entity_id} is set up as the {use} signal, but it has been unavailable for 6 hours or more. Check the device or integration it comes from. This goes away on its own once it is back."
+    },
+    "cable_implausible": {
+      "title": "{car}: cable sensor does not match the car",
+      "description": "{entity_id} said the cable was plugged in while {car} was on or moving. It may be stuck, or belong to a charger another car also uses. Until it next turns off, it is not used to tell when the car is at home or to hold off fast polling.\n\nIf this keeps happening, remove the cable sensor under Settings, Devices and services, BYD Smart Poll, Configure. This goes away by itself once the sensor turns off. It comes back if it happens again."
+    },
+    "phone_sensor_disabled": {
+      "title": "{car}: phone Bluetooth sensor is off",
+      "description": "{entity_id} is used to see a drive start, but it is disabled. On the phone, open the Home Assistant app, then Companion app settings, Manage sensors, Bluetooth connection, and turn it on."
+    },
+    "car_not_found": {
+      "title": "{car}: car not found in BYD Vehicle",
+      "description": "The car this was set up for is not in the BYD Vehicle integration any more. If you removed BYD Vehicle, add it again with the same account and this picks the car up again by its VIN on its own. If the car is gone for good, remove BYD Smart Poll for it under Settings, Devices and services."
+    },
+    "car_entities_missing": {
+      "title": "{car}: BYD Vehicle entities missing",
+      "description": "The car's poll interval numbers, battery level or vehicle on sensor do not exist in BYD Vehicle. Check BYD Vehicle is 0.0.88 or newer and loads without errors. This goes away on its own once they are back."
+    },
+    "car_entities_disabled": {
+      "title": "{car}: BYD Vehicle entities disabled",
+      "description": "The car's poll interval numbers, battery level or vehicle on sensor are disabled. Enable them on the car's device page under Settings, Devices and services, BYD Vehicle. This goes away on its own once they are enabled."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "mode": {
+        "name": "Polling mode",
+        "state": {
+          "parked": "Parked",
+          "charging": "Charging",
+          "driving": "Driving",
+          "waking": "Expecting a drive",
+          "off": "Off"
+        }
+      },
+      "estimated_soc": {
+        "name": "Estimated battery level"
+      },
+      "kwh_per_pct": {
+        "name": "Energy per 1%"
+      },
+      "polls_24h": {
+        "name": "Car polls (24 h)"
+      },
+      "parked_awake_share": {
+        "name": "Parked awake share"
+      },
+      "parked_drain": {
+        "name": "Parked drain"
+      }
+    },
+    "switch": {
+      "enabled": {
+        "name": "Smart polling"
+      }
+    },
+    "binary_sensor": {
+      "car_data_stale": {
+        "name": "Car data stale"
+      }
+    }
+  },
+  "exceptions": {
+    "byd_too_old": {
+      "message": "Needs BYD Vehicle {minimum} or newer, and {version} is installed. Update BYD Vehicle and restart Home Assistant."
+    }
+  }
+}

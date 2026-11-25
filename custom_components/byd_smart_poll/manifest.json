@@ -1,0 +1,21 @@
+{
+  "domain": "byd_smart_poll",
+  "name": "BYD Smart Poll",
+  "after_dependencies": [
+    "byd_vehicle"
+  ],
+  "categories": [
+    "vehicles_transport.cars_evs"
+  ],
+  "codeowners": [
+    "@botts7"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/botts7/byd-smart-poll",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/botts7/byd-smart-poll/issues",
+  "requirements": [],
+  "version": "0.3.0b2"
+}
